@@ -3,66 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CYBERNOVA ELITE</title>
+    <title>CYBERNOVA ELITE PWA</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --neon: #00BFFF; --gold: #FFD700; --bg: #f4f4f4; --dark: #000; }
-        body { background: var(--bg); color: #333; font-family: 'Arial', sans-serif; margin: 0; padding-bottom: 80px; }
+        :root { --neon: #00BFFF; --gold: #FFD700; --bg: #1a1a1a; --header: #000; }
+        body { background: #e0e0e0; color: #333; font-family: 'Arial', sans-serif; margin: 0; padding-bottom: 80px; }
         
-        /* HEADER NEGRO COMO LA IMAGEN */
-        .header-top { background: var(--dark); color: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
-        .fomo-banner { background: #d9534f; color: white; padding: 8px; font-weight: bold; font-size: 0.7rem; }
+        /* BANNER SUPERIOR */
+        .fomo-header { background: #c0392b; color: white; padding: 10px; font-weight: bold; font-size: 0.75rem; text-align: center; border-bottom: 2px solid var(--gold); }
+        .main-header { background: var(--header); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); }
 
-        /* CONTENEDOR PRINCIPAL: MASCOTA + HUB */
-        .main-container { display: flex; padding: 20px; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+        /* LAYOUT PRINCIPAL (MASCOTA + HUB) */
+        .app-container { display: flex; padding: 20px; gap: 20px; flex-wrap: wrap; justify-content: center; }
         
-        /* COLUMNA IZQUIERDA: MERLION */
-        .left-side { flex: 1; min-width: 140px; text-align: center; }
-        .merlion-svg { width: 130px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); animation: float 3s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* COLUMNA IZQUIERDA: EL MERLION REAL */
+        .mascot-side { flex: 1; min-width: 150px; text-align: center; }
+        .merlion-card { background: white; border-radius: 20px; padding: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .merlion-image { width: 100%; border-radius: 15px; }
 
         /* COLUMNA DERECHA: GAMES HUB */
-        .right-side { flex: 2; min-width: 200px; }
+        .games-side { flex: 1.5; min-width: 250px; }
+        .games-title { font-weight: bold; margin-bottom: 10px; font-size: 1.1rem; }
         .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .game-box { background: #333; aspect-ratio: 1/1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; position: relative; cursor: pointer; border: 1px solid #444; }
-        .game-box.active { background: #444; border: 2px solid var(--neon); }
-        .game-box.locked::after { content: "🔒"; position: absolute; top: 5px; right: 5px; font-size: 0.6rem; }
-        .game-box span { color: white; }
+        .game-item { background: #333; aspect-ratio: 1/1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; position: relative; border: 2px solid transparent; }
+        .game-item.active { border-color: var(--neon); background: #444; }
+        .game-item.locked::after { content: "🔒"; position: absolute; top: 5px; right: 5px; font-size: 0.7rem; }
 
-        /* TARJETAS DE SERVICIOS (ABAJO) */
-        .services-section { padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .service-card { background: #333; color: white; padding: 12px; border-radius: 8px; text-align: left; }
-        .service-card h4 { margin: 0; font-size: 0.8rem; color: var(--neon); }
-        .service-card p { margin: 5px 0 0; font-size: 0.65rem; color: #ccc; }
+        /* SERVICIOS DEBAJO */
+        .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; }
+        .card { background: #333; color: white; padding: 15px; border-radius: 12px; font-size: 0.75rem; border-left: 4px solid var(--neon); }
+        .card strong { display: block; color: var(--gold); margin-bottom: 5px; }
 
-        /* BOTÓN WHATSAPP DORADO */
-        .btn-wa-gold { background: linear-gradient(180deg, #FFD700, #b8860b); color: black; border: none; padding: 15px; border-radius: 50px; font-weight: bold; width: 90%; margin: 20px auto; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* BOTÓN WHATSAPP GOLD */
+        .cta-gold { background: linear-gradient(180deg, #FFD700, #b8860b); color: black; border: none; padding: 18px; border-radius: 50px; font-weight: bold; width: 90%; margin: 10px auto; display: block; font-size: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-decoration: none; text-align: center; }
 
-        /* NAV INFERIOR */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--dark); border-top: 2px solid var(--gold); display: flex; justify-content: space-around; align-items: center; }
-        .nav-icon { color: var(--gold); font-size: 1.2rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 0.6rem; }
+        /* NAVBAR INFERIOR */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; height: 70px; background: var(--header); border-top: 2px solid var(--gold); display: flex; justify-content: space-around; align-items: center; }
+        .nav-link { color: var(--gold); text-decoration: none; text-align: center; font-size: 0.6rem; opacity: 0.7; }
+        .nav-link.active { opacity: 1; }
     </style>
 </head>
 <body>
 
-    <div class="fomo-banner">⚠️ GOLD MEMBER SPOT EXPIRES IN – 15:00!</div>
-    <div class="header-top">
-        <h2 style="margin:0; color:var(--neon); font-size: 1.2rem;">CYBERNOVA</h2>
-        <small style="letter-spacing: 1px;">OFFICIAL SINGAPORE AI PARTNER</small>
+    <div class="fomo-header">⚠️ GOLD MEMBER SPOT EXPIRES IN – 15:00!</div>
+    <div class="main-header">
+        <h1 style="margin:0; color:var(--neon); font-size: 1.5rem;">CYBERNOVA</h1>
+        <small style="color:white; letter-spacing: 2px;">OFFICIAL SINGAPORE AI PARTNER</small>
     </div>
 
-    <div class="main-container">
-        <div class="left-side">
-            <svg class="merlion-svg" viewBox="0 0 100 120">
-                <path d="M50 10 Q70 10 75 30 T50 50 T25 30 Q30 10 50 10" fill="#E0C097" stroke="#333"/>
-                <path d="M50 50 L50 110 Q70 110 70 90 T50 70 T30 90 Q30 110 50 110" fill="#E0C097" stroke="#333"/>
-                <circle cx="50" cy="30" r="3" fill="black"/>
-            </svg>
-            <div style="background:var(--dark); color
-       
+    <div class="app-container">
+        <div class="mascot-side">
+            <div class="merlion-card">
+                <img src="https://i.ibb.co/vz6mDzm/merlion-placeholder.png" class="merlion-image" alt="Merlion Mascot">
+            </div>
+            <div style="background:#222; color:white; border-radius:10px; padding:15px; margin-top:15px; text-align:left;">
+                <strong style="color:var(--neon)">Welcome, VIP Agent</strong><br>
+                <small>3 Day Streak | XP: 1,250</small>
+            </div>
+        </div>
 
-     
-          
+        <div class="games-side">
+            <div class="games-title">2 MERLION GAMES HUB</div>
+            <div class="games-grid">
+                <div class="game-item active" onclick="playWin()">🎰</div>
+                <div class="game-item locked">🃏</div>
+                <div class="game-item locked">🎡</div>
+                <div class="game-item active" onclick="playWin()">🟡</div>
+                <div class="game-item" style="color:var(--neon); font-size: 1rem; font-weight:bold;">1 8 3</div>
+                <div class="game-item" style="color:var(--neon); font-size: 1rem; font-weight:bold;">2 1 0</div>
+                <div class="game-item">💎</div>
+                <div class="game-item" style="color:var(--neon); font-size: 1rem; font-weight:bold;">2 0 5</div>
+                <div class="game-item" style="color:var(--neon); font-size: 1rem; font-weight:bold;">3 6</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-cards">
+        <div class="card"><strong>Managed IT Support</strong>2/7 Monitoring</div>
+        <div class="card"><strong>AI Automation</strong>CRM & Workflows</div>
+        <div class="card"><strong>Cyber Security</strong>Endpoint Protection</div>
+        <div class="card"><strong>Cloud Services</strong>Azure/AWS/Google</div>
+    </div>
+
+    <a href="https://wa.me/6584412114" class="cta-gold">WHATSAPP AGENT</a>
+
+    <nav class="nav-bottom">
+        <a class="nav-link">🏠<br>home</a>
+        <a class="nav-link active">🎮<br>games</a>
+        <a class="nav-link">👤<br>account</a>
+        <a class="nav-link">💬<br>contact</a>
+    </nav>
+
+    <script>
+        function playWin() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            alert("¡WINNER! Contacta al agente para tu bono Cybernova del 50%.");
+        }
+    </script>
+</body>
+</html>
+    
+    
 
        
        
@@ -72,5 +114,6 @@
             
                         
       
+
 
 
