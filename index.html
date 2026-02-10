@@ -3,128 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberNova SG - Elite AI & IT Reality</title>
+    <title>CYBERNOVA - MERLION 777 ELITE</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --neon: #00BFFF; --gold: #FFD700; --dark: #050505; --win-green: #25D366; }
-        body { background: var(--dark); color: white; font-family: 'Helvetica Neue', sans-serif; margin: 0; padding: 0; text-align: center; }
+        :root { --neon: #00BFFF; --gold: #FFD700; --dark: #020202; --card: #121212; }
+        body { background: var(--dark); color: white; font-family: 'Lexend', sans-serif; margin: 0; overflow-x: hidden; }
         
-        /* HEADER PROFESIONAL (Basado en Cybernova.sg) */
-        .header-main { background: #000; padding: 15px; border-bottom: 2px solid var(--gold); }
-        .streak-bar { background: #111; color: var(--gold); font-size: 0.8rem; padding: 5px; font-weight: bold; border-bottom: 1px solid #333; }
-        
-        /* LOGO MERLION 777 */
-        .merlion-logo { width: 80px; filter: drop-shadow(0 0 10px var(--neon)); margin: 10px 0; }
+        /* BANNER FOMO DINÁMICO */
+        #fomo-bar { background: linear-gradient(90deg, #ff0000, #990000); color: white; font-size: 0.75rem; padding: 8px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
 
-        /* FOMO BANNER */
-        #fomo-ticker { background: #ff0000; color: white; padding: 8px; font-weight: 900; font-size: 0.8rem; animation: flash 1s infinite; }
-        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.5; } }
+        /* MERLION MASCOT CONTAINER */
+        .merlion-mascot { text-align: center; padding: 20px; position: relative; }
+        .merlion-img { width: 140px; filter: drop-shadow(0 0 15px var(--gold)); animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* SECCIÓN DE SERVICIOS REALES (INFO DE LA WEB) */
-        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
-        .service-card { background: #111; border: 1px solid #333; padding: 10px; border-radius: 10px; font-size: 0.75rem; }
-        .service-card h4 { color: var(--neon); margin: 5px 0; font-size: 0.8rem; }
+        /* SCREENS & TABS */
+        .screen { display: none; padding: 20px; padding-bottom: 100px; }
+        .active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        /* CASINO MACHINE */
-        .casino-box { background: linear-gradient(180deg, #111, #000); margin: 15px; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
-        .reels { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
-        .reel { width: 70px; height: 90px; background: #000; border: 2px solid var(--neon); border-radius: 10px; font-size: 3rem; line-height: 90px; text-shadow: 0 0 10px var(--neon); }
+        /* GAMES HUB GRID (8 JUEGOS) */
+        .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .game-card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 20px; text-align: center; transition: 0.3s; position: relative; }
+        .game-card:active { transform: scale(0.9); border-color: var(--neon); }
+        .game-card.locked { opacity: 0.5; filter: grayscale(1); }
+        .game-card.locked::after { content: "🔒"; position: absolute; top: 10px; right: 10px; }
+        .game-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
 
-        /* HOSTESS (EMBAJADORA) */
-        #hostess { display: none; position: fixed; bottom: 80px; left: 10px; width: 150px; z-index: 100; animation: bounceIn 0.5s; }
-        @keyframes bounceIn { from { transform: translateY(100px); } to { transform: translateY(0); } }
+        /* JUEGO: MERLION ROULETTE */
+        .casino-display { background: #000; padding: 20px; border-radius: 15px; border: 2px solid var(--gold); margin: 20px 0; }
+        .reels { display: flex; justify-content: center; gap: 10px; }
+        .reel { width: 65px; height: 90px; background: #111; border: 1px solid var(--neon); font-size: 3rem; line-height: 90px; border-radius: 10px; font-weight: bold; color: var(--gold); }
+
+        /* FOOTER NAVIGATION */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 75px; background: #000; display: flex; border-top: 2px solid var(--gold); }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: #555; }
+        .nav-item.active { color: var(--gold); }
 
         /* BOTONES */
-        .btn-spin { background: linear-gradient(45deg, var(--gold), #b8860b); color: black; border: none; padding: 15px 35px; border-radius: 50px; font-weight: 900; font-size: 1.2rem; cursor: pointer; box-shadow: 0 0 20px var(--gold); width: 80%; }
-        .footer-cta { position: fixed; bottom: 0; width: 100%; display: flex; height: 65px; background: #000; border-top: 2px solid var(--gold); }
-        .cta-item { flex: 1; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
-        .bg-wa { background: var(--win-green); }
-
-        .trust-badge { font-size: 0.7rem; color: #888; margin-top: 10px; }
+        .btn-action { background: linear-gradient(45deg, var(--gold), #b8860b); color: #000; border: none; padding: 15px; border-radius: 50px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); }
+        .btn-wa { background: #25D366; color: white; border: none; padding: 15px; border-radius: 50px; font-weight: 900; width: 100%; margin-top: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="fomo-ticker">⚠️ ONLY 5 GOLD MEMBER SLOTS LEFT TODAY!</div>
-    <div class="streak-bar">🔥 3 DAY STREAK | LEVEL: BRONZE | 200+ CLIENTS SAVED</div>
+    <div id="fomo-bar">⚠️ GOLD MEMBER SPOT EXPIRES IN 14:55!</div>
 
-    <header class="header-main">
-        <img src="https://cybernova.sg/wp-content/uploads/2023/06/Cybernova-Logo-Final-01.png" alt="Cybernova" style="height: 30px;">
-        <div style="color:var(--gold); font-size: 0.7rem; letter-spacing: 2px;">SINGAPORE'S ELITE IT/AI SOLUTIONS</div>
-    </header>
-
-    <div class="services-grid">
-        <div class="service-card"><h4>Managed IT</h4>24/7 Support</div>
-        <div class="service-card"><h4>Cloud</h4>Azure/AWS/Google</div>
-        <div class="service-card"><h4>Security</h4>Cyber Protection</div>
-        <div class="service-card"><h4>AI Automation</h4>Smart Workflows</div>
-    </div>
-
-    <div class="casino-box">
-        <div style="color:var(--gold); font-weight:bold; margin-bottom:10px;">MERLION 777 JACKPOT</div>
-        <div class="reels">
-            <div id="r1" class="reel">🎰</div>
-            <div id="r2" class="reel">🎰</div>
-            <div id="r3" class="reel">🎰</div>
+    <section id="tab-home" class="screen active">
+        <div class="merlion-mascot">
+            <img src="https://i.ibb.co/vz6mDzm/merlion-placeholder.png" class="merlion-img" alt="Merlion Mascot">
+            <h1 style="margin:5px 0; color:var(--neon); letter-spacing: 2px;">CYBERNOVA</h1>
+            <div style="color:var(--gold); font-size: 0.8rem;">OFFICIAL SINGAPORE AI PARTNER</div>
         </div>
-        <button class="btn-spin" onclick="spinGame()">SPIN FOR AI BONUS</button>
-        <p class="trust-badge">Trusted by SME Leaders in Singapore & Vietnam</p>
-    </div>
 
-    <div id="hostess">
-        <div style="background: rgba(0,0,0,0.8); border: 1px solid var(--gold); border-radius: 10px; padding: 10px; font-size: 0.7rem;">
-            <p id="hostess-msg">Welcome to Cybernova!</p>
-            <img src="https://cdn-icons-png.flaticon.com/512/4086/4086679.png" width="50">
+        <div class="game-card" style="text-align: left; background: linear-gradient(90deg, #111, #000);">
+            <div style="font-size: 1.2rem;">Welcome, <strong>VIP Agent</strong></div>
+            <div style="color:var(--gold); font-size: 0.8rem;">Daily Streak: 🔥 3 Days | XP: 1,250</div>
+            <p style="font-size: 0.7rem; color:#888;">Services: Managed IT, AI Automation, Cloud Security.</p>
         </div>
-    </div>
 
-    <footer class="footer-cta">
-        <a href="tel:+6584412114" class="cta-item">📞 CALL NOW</a>
-        <a href="javascript:void(0)" onclick="goToWA('DIRECT_CONTACT')" class="cta-item bg-wa">💬 WHATSAPP</a>
-    </footer>
+        <button class="btn-wa" onclick="contact('Home CTA')">WHATSAPP AGENT (FREE AUDIT)</button>
+    </section>
+
+    <section id="tab-games" class="screen">
+        <h2 style="color:var(--gold)">MERLION GAMES HUB</h2>
+        <div class="games-grid">
+            <div class="game-card" onclick="openGame('roulette')">
+                <span class="game-icon">🎰</span><strong>Merlion 777</strong>
+            </div>
+            <div class="game-card" onclick="openGame('pacman')">
+                <span class="game-icon">🟡</span><strong>AI PAC-MAN</strong>
+            </div>
+            <div class="game-card locked"><span class="game-icon">🎡</span><strong>Spin Wheel</strong></div>
+            <div class="game-card locked"><span class="game-icon">🃏</span><strong>Lucky Cards</strong></div>
+            <div class="game-card locked"><span class="game-icon">⚡</span><strong>Time Attack</strong></div>
+            <div class="game-card locked"><span class="game-icon">🧩</span><strong>Match Win</strong></div>
+            <div class="game-card locked"><span class="game-icon">🤝</span><strong>Locked Deal</strong></div>
+            <div class="game-card locked"><span class="game-icon">📞</span><strong>Call & Win</strong></div>
+        </div>
+
+        <div id="game-roulette" style="display:none; margin-top:20px;">
+            <div class="casino-display">
+                <div class="reels">
+                    <div id="r1" class="reel">7</div><div id="r2" class="reel">7</div><div id="r3" class="reel">7</div>
+                </div>
+                <button class="btn-action" style="margin-top:20px;" onclick="spin()">SPIN & WIN AI BONUS</button>
+            </div>
+        </div>
+
+        <div id="game-pacman" style="display:none; text-align: center; margin-top:20px;">
+            <canvas id="pacmanCanvas" width="280" height="280" style="border:2px solid var(--neon);"></canvas>
+            <p>Score: <span id="score">0</span></p>
+            <button class="btn-action" onclick="contact('Pacman Redemption')">REDEEM POINTS</button>
+        </div>
+    </section>
+
+    <nav class="nav-bar">
+        <div class="nav-item active" onclick="nav('tab-home', this)"><span>🏠</span>HOME</div>
+        <div class="nav-item" onclick="nav('tab-games', this)"><span>🎮</span>GAMES</div>
+        <div class="nav-item" onclick="contact('Support Chat')"><span>💬</span>CHAT</div>
+        <div class="nav-item" onclick="window.location.href='tel:+6584412114'"><span>📞</span>CALL</div>
+    </nav>
 
     <script>
-        function spinGame() {
-            if (navigator.vibrate) navigator.vibrate(50);
+        function nav(id, el) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+        }
+
+        function openGame(game) {
+            document.getElementById('game-roulette').style.display = game === 'roulette' ? 'block' : 'none';
+            document.getElementById('game-pacman').style.display = game === 'pacman' ? 'block' : 'none';
+            if(game === 'pacman') initPacman();
+        }
+
+        function spin() {
+            if(navigator.vibrate) navigator.vibrate(50);
             let count = 0;
             const timer = setInterval(() => {
                 document.getElementById('r1').innerText = Math.floor(Math.random()*9);
                 document.getElementById('r2').innerText = Math.floor(Math.random()*9);
                 document.getElementById('r3').innerText = Math.floor(Math.random()*9);
                 count++;
-                
                 if(count > 15) {
                     clearInterval(timer);
-                    // LÓGICA DE NEAR-MISS (Casi ganas el 777)
+                    // NEAR MISS LOGIC (7-7-6)
                     document.getElementById('r1').innerText = "7";
                     document.getElementById('r2').innerText = "7";
-                    document.getElementById('r3').innerText = "6"; 
-                    
-                    showHostess("SO CLOSE! Contact us to double your bonus! 🔥");
-                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    
-                    setTimeout(() => {
-                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                        if(confirm("JACKPOT ALERT! You unlocked 50% OFF AI Launch. Claim via WhatsApp?")) {
-                            goToWA("JACKPOT_NEAR_MISS");
-                        }
-                    }, 500);
+                    document.getElementById('r3').innerText = "6";
+                    confetti({ particleCount: 150, spread: 70 });
+                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    alert("SO CLOSE! The Merlion offers a VIP Second Chance. WhatsApp Now!");
+                    contact('Near Miss Roulette');
                 }
             }, 100);
         }
 
-        function showHostess(msg) {
-            const h = document.getElementById('hostess');
-            document.getElementById('hostess-msg').innerText = msg;
-            h.style.display = 'block';
-            setTimeout(() => h.style.display = 'none', 5000);
+        function initPacman() {
+            const canvas = document.getElementById('pacmanCanvas');
+            const ctx = canvas.getContext('2d');
+            let x = 140, y = 140;
+            function draw() {
+                ctx.fillStyle = "black"; ctx.fillRect(0,0,280,280);
+                ctx.fillStyle = "yellow"; ctx.beginPath();
+                ctx.arc(x, y, 15, 0.2 * Math.PI, 1.8 * Math.PI);
+                ctx.lineTo(x, y); ctx.fill();
+                x += (Math.random() - 0.5) * 4; y += (Math.random() - 0.5) * 4;
+                requestAnimationFrame(draw);
+            }
+            draw();
         }
 
-        function goToWA(type) {
-            const text = encodeURIComponent(`Hi CyberNova Team! I was playing the Merlion 777 Game. I'm interested in your IT/AI Services (Managed IT/Cloud). I want to claim my Jackpot Bonus!`);
-            window.open(`https://wa.me/6584412114?text=${text}`, '_blank');
+        function contact(source) {
+            const msg = encodeURIComponent(`Hi CyberNova! I'm coming from ${source}. I won a bonus and want to discuss your IT/AI services (50% OFF Launch).`);
+            window.open(`https://wa.me/6584412114?text=${msg}`, '_blank');
         }
     </script>
 </body>
 </html>
-        
+
+      
+
+   
+
+    
+            
+                        
+      
+
