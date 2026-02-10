@@ -1,0 +1,73 @@
+:root {
+    --neon: #00BFFF;
+    --gold: #FFD700;
+    --dark: #050505;
+    --glass: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    margin: 0; padding: 0;
+    background: var(--dark);
+    color: white;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    user-select: none;
+}
+
+/* Header & Streak */
+.top-nav {
+    display: flex; justify-content: space-between; padding: 10px 20px;
+    background: #111; border-bottom: 1px solid var(--gold);
+    font-weight: bold; font-size: 0.8rem;
+}
+
+.streak-fire { color: #FF4500; filter: drop-shadow(0 0 5px #FF4500); }
+
+/* FOMO Timer */
+#fomo-banner {
+    background: #ff0000; color: white; padding: 5px;
+    font-size: 0.7rem; text-align: center; font-weight: 900;
+}
+
+/* Merlion Logo */
+.merlion-brand {
+    text-align: center; padding: 20px;
+}
+.merlion-brand svg {
+    width: 80px; filter: drop-shadow(0 0 10px var(--neon));
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--neon)); }
+    50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--gold)); }
+}
+
+/* Tabs / Screens */
+.screen { display: none; padding-bottom: 80px; }
+.active { display: block; animation: fadeIn 0.3s; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Game Cards */
+.game-card {
+    background: var(--glass); margin: 15px; border-radius: 15px;
+    border: 1px solid #333; padding: 20px; text-align: center;
+}
+
+.btn-cta {
+    background: linear-gradient(45deg, var(--neon), #0077ff);
+    color: white; border: none; padding: 15px 30px;
+    border-radius: 50px; font-weight: bold; width: 80%;
+    box-shadow: 0 0 15px var(--neon); text-transform: uppercase;
+}
+
+/* Floating Footer */
+.bottom-bar {
+    position: fixed; bottom: 0; width: 100%; height: 70px;
+    background: rgba(0,0,0,0.9); display: flex;
+    border-top: 1px solid var(--gold); backdrop-filter: blur(10px);
+}
+
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.6rem; color: #888; }
+.nav-item.active { color: var(--gold); }

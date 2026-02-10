@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CyberNova SG</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div id="fomo-banner">🔥 ONLY 5 GOLD SPOTS LEFT TODAY!</div>
+
+    <nav class="top-nav">
+        <div class="streak-fire">🔥 STREAK: 3 DAYS</div>
+        <div id="user-rank" style="color:var(--gold)">RANK: BRONZE</div>
+    </nav>
+
+    <section id="home" class="screen active">
+        <div class="merlion-brand">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 Q70 10 75 30 T50 50 T25 30 Q30 10 50 10 Z" fill="none" stroke="#FFD700" stroke-width="3" />
+                <path d="M50 50 L50 90 M30 70 L70 70" stroke="#00BFFF" stroke-width="4" />
+            </svg>
+            <h1 style="margin:0; color:var(--neon)">CYBERNOVA</h1>
+            <small>AI REALITY – SINGAPORE</small>
+        </div>
+
+        <div class="game-card">
+            <h2 id="win-msg">READY TO SPIN?</h2>
+            <div style="display:flex; justify-content:center; gap:10px; font-size:3rem; margin:20px 0;">
+                <div id="r1">🎰</div><div id="r2">🎰</div><div id="r3">🎰</div>
+            </div>
+            <button class="btn-cta" onclick="playRoulette()">SPIN MERLION 777</button>
+        </div>
+    </section>
+
+    <footer class="bottom-bar">
+        <div class="nav-item active" onclick="showScreen('home')"><span>🏠</span>HOME</div>
+        <div class="nav-item" onclick="contactWA('SERVICES')"><span>💻</span>SERVICES</div>
+        <div class="nav-item" onclick="contactWA('GAMES')"><span>🎮</span>GAMES</div>
+        <div class="nav-item" onclick="window.location.href='tel:+6584412114'"><span>📞</span>CALL</div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
