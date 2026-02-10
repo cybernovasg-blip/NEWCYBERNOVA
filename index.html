@@ -3,173 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CYBERNOVA - MERLION 777 ELITE</title>
+    <title>CYBERNOVA ELITE</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --neon: #00BFFF; --gold: #FFD700; --dark: #020202; --card: #121212; }
-        body { background: var(--dark); color: white; font-family: 'Lexend', sans-serif; margin: 0; overflow-x: hidden; }
+        :root { --neon: #00BFFF; --gold: #FFD700; --bg: #f4f4f4; --dark: #000; }
+        body { background: var(--bg); color: #333; font-family: 'Arial', sans-serif; margin: 0; padding-bottom: 80px; }
         
-        /* BANNER FOMO DINÁMICO */
-        #fomo-bar { background: linear-gradient(90deg, #ff0000, #990000); color: white; font-size: 0.75rem; padding: 8px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 1000; }
+        /* HEADER NEGRO COMO LA IMAGEN */
+        .header-top { background: var(--dark); color: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        .fomo-banner { background: #d9534f; color: white; padding: 8px; font-weight: bold; font-size: 0.7rem; }
 
-        /* MERLION MASCOT CONTAINER */
-        .merlion-mascot { text-align: center; padding: 20px; position: relative; }
-        .merlion-img { width: 140px; filter: drop-shadow(0 0 15px var(--gold)); animation: float 3s infinite ease-in-out; }
+        /* CONTENEDOR PRINCIPAL: MASCOTA + HUB */
+        .main-container { display: flex; padding: 20px; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+        
+        /* COLUMNA IZQUIERDA: MERLION */
+        .left-side { flex: 1; min-width: 140px; text-align: center; }
+        .merlion-svg { width: 130px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); animation: float 3s infinite ease-in-out; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* SCREENS & TABS */
-        .screen { display: none; padding: 20px; padding-bottom: 100px; }
-        .active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* COLUMNA DERECHA: GAMES HUB */
+        .right-side { flex: 2; min-width: 200px; }
+        .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .game-box { background: #333; aspect-ratio: 1/1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; position: relative; cursor: pointer; border: 1px solid #444; }
+        .game-box.active { background: #444; border: 2px solid var(--neon); }
+        .game-box.locked::after { content: "🔒"; position: absolute; top: 5px; right: 5px; font-size: 0.6rem; }
+        .game-box span { color: white; }
 
-        /* GAMES HUB GRID (8 JUEGOS) */
-        .games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .game-card { background: var(--card); border: 1px solid #333; border-radius: 20px; padding: 20px; text-align: center; transition: 0.3s; position: relative; }
-        .game-card:active { transform: scale(0.9); border-color: var(--neon); }
-        .game-card.locked { opacity: 0.5; filter: grayscale(1); }
-        .game-card.locked::after { content: "🔒"; position: absolute; top: 10px; right: 10px; }
-        .game-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+        /* TARJETAS DE SERVICIOS (ABAJO) */
+        .services-section { padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .service-card { background: #333; color: white; padding: 12px; border-radius: 8px; text-align: left; }
+        .service-card h4 { margin: 0; font-size: 0.8rem; color: var(--neon); }
+        .service-card p { margin: 5px 0 0; font-size: 0.65rem; color: #ccc; }
 
-        /* JUEGO: MERLION ROULETTE */
-        .casino-display { background: #000; padding: 20px; border-radius: 15px; border: 2px solid var(--gold); margin: 20px 0; }
-        .reels { display: flex; justify-content: center; gap: 10px; }
-        .reel { width: 65px; height: 90px; background: #111; border: 1px solid var(--neon); font-size: 3rem; line-height: 90px; border-radius: 10px; font-weight: bold; color: var(--gold); }
+        /* BOTÓN WHATSAPP DORADO */
+        .btn-wa-gold { background: linear-gradient(180deg, #FFD700, #b8860b); color: black; border: none; padding: 15px; border-radius: 50px; font-weight: bold; width: 90%; margin: 20px auto; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-        /* FOOTER NAVIGATION */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; height: 75px; background: #000; display: flex; border-top: 2px solid var(--gold); }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: #555; }
-        .nav-item.active { color: var(--gold); }
-
-        /* BOTONES */
-        .btn-action { background: linear-gradient(45deg, var(--gold), #b8860b); color: #000; border: none; padding: 15px; border-radius: 50px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); }
-        .btn-wa { background: #25D366; color: white; border: none; padding: 15px; border-radius: 50px; font-weight: 900; width: 100%; margin-top: 15px; cursor: pointer; }
+        /* NAV INFERIOR */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--dark); border-top: 2px solid var(--gold); display: flex; justify-content: space-around; align-items: center; }
+        .nav-icon { color: var(--gold); font-size: 1.2rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; font-size: 0.6rem; }
     </style>
 </head>
 <body>
 
-    <div id="fomo-bar">⚠️ GOLD MEMBER SPOT EXPIRES IN 14:55!</div>
+    <div class="fomo-banner">⚠️ GOLD MEMBER SPOT EXPIRES IN – 15:00!</div>
+    <div class="header-top">
+        <h2 style="margin:0; color:var(--neon); font-size: 1.2rem;">CYBERNOVA</h2>
+        <small style="letter-spacing: 1px;">OFFICIAL SINGAPORE AI PARTNER</small>
+    </div>
 
-    <section id="tab-home" class="screen active">
-        <div class="merlion-mascot">
-            <img src="https://i.ibb.co/vz6mDzm/merlion-placeholder.png" class="merlion-img" alt="Merlion Mascot">
-            <h1 style="margin:5px 0; color:var(--neon); letter-spacing: 2px;">CYBERNOVA</h1>
-            <div style="color:var(--gold); font-size: 0.8rem;">OFFICIAL SINGAPORE AI PARTNER</div>
-        </div>
+    <div class="main-container">
+        <div class="left-side">
+            <svg class="merlion-svg" viewBox="0 0 100 120">
+                <path d="M50 10 Q70 10 75 30 T50 50 T25 30 Q30 10 50 10" fill="#E0C097" stroke="#333"/>
+                <path d="M50 50 L50 110 Q70 110 70 90 T50 70 T30 90 Q30 110 50 110" fill="#E0C097" stroke="#333"/>
+                <circle cx="50" cy="30" r="3" fill="black"/>
+            </svg>
+            <div style="background:var(--dark); color
+       
 
-        <div class="game-card" style="text-align: left; background: linear-gradient(90deg, #111, #000);">
-            <div style="font-size: 1.2rem;">Welcome, <strong>VIP Agent</strong></div>
-            <div style="color:var(--gold); font-size: 0.8rem;">Daily Streak: 🔥 3 Days | XP: 1,250</div>
-            <p style="font-size: 0.7rem; color:#888;">Services: Managed IT, AI Automation, Cloud Security.</p>
-        </div>
+     
+          
 
-        <button class="btn-wa" onclick="contact('Home CTA')">WHATSAPP AGENT (FREE AUDIT)</button>
-    </section>
-
-    <section id="tab-games" class="screen">
-        <h2 style="color:var(--gold)">MERLION GAMES HUB</h2>
-        <div class="games-grid">
-            <div class="game-card" onclick="openGame('roulette')">
-                <span class="game-icon">🎰</span><strong>Merlion 777</strong>
-            </div>
-            <div class="game-card" onclick="openGame('pacman')">
-                <span class="game-icon">🟡</span><strong>AI PAC-MAN</strong>
-            </div>
-            <div class="game-card locked"><span class="game-icon">🎡</span><strong>Spin Wheel</strong></div>
-            <div class="game-card locked"><span class="game-icon">🃏</span><strong>Lucky Cards</strong></div>
-            <div class="game-card locked"><span class="game-icon">⚡</span><strong>Time Attack</strong></div>
-            <div class="game-card locked"><span class="game-icon">🧩</span><strong>Match Win</strong></div>
-            <div class="game-card locked"><span class="game-icon">🤝</span><strong>Locked Deal</strong></div>
-            <div class="game-card locked"><span class="game-icon">📞</span><strong>Call & Win</strong></div>
-        </div>
-
-        <div id="game-roulette" style="display:none; margin-top:20px;">
-            <div class="casino-display">
-                <div class="reels">
-                    <div id="r1" class="reel">7</div><div id="r2" class="reel">7</div><div id="r3" class="reel">7</div>
-                </div>
-                <button class="btn-action" style="margin-top:20px;" onclick="spin()">SPIN & WIN AI BONUS</button>
-            </div>
-        </div>
-
-        <div id="game-pacman" style="display:none; text-align: center; margin-top:20px;">
-            <canvas id="pacmanCanvas" width="280" height="280" style="border:2px solid var(--neon);"></canvas>
-            <p>Score: <span id="score">0</span></p>
-            <button class="btn-action" onclick="contact('Pacman Redemption')">REDEEM POINTS</button>
-        </div>
-    </section>
-
-    <nav class="nav-bar">
-        <div class="nav-item active" onclick="nav('tab-home', this)"><span>🏠</span>HOME</div>
-        <div class="nav-item" onclick="nav('tab-games', this)"><span>🎮</span>GAMES</div>
-        <div class="nav-item" onclick="contact('Support Chat')"><span>💬</span>CHAT</div>
-        <div class="nav-item" onclick="window.location.href='tel:+6584412114'"><span>📞</span>CALL</div>
-    </nav>
-
-    <script>
-        function nav(id, el) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            el.classList.add('active');
-        }
-
-        function openGame(game) {
-            document.getElementById('game-roulette').style.display = game === 'roulette' ? 'block' : 'none';
-            document.getElementById('game-pacman').style.display = game === 'pacman' ? 'block' : 'none';
-            if(game === 'pacman') initPacman();
-        }
-
-        function spin() {
-            if(navigator.vibrate) navigator.vibrate(50);
-            let count = 0;
-            const timer = setInterval(() => {
-                document.getElementById('r1').innerText = Math.floor(Math.random()*9);
-                document.getElementById('r2').innerText = Math.floor(Math.random()*9);
-                document.getElementById('r3').innerText = Math.floor(Math.random()*9);
-                count++;
-                if(count > 15) {
-                    clearInterval(timer);
-                    // NEAR MISS LOGIC (7-7-6)
-                    document.getElementById('r1').innerText = "7";
-                    document.getElementById('r2').innerText = "7";
-                    document.getElementById('r3').innerText = "6";
-                    confetti({ particleCount: 150, spread: 70 });
-                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    alert("SO CLOSE! The Merlion offers a VIP Second Chance. WhatsApp Now!");
-                    contact('Near Miss Roulette');
-                }
-            }, 100);
-        }
-
-        function initPacman() {
-            const canvas = document.getElementById('pacmanCanvas');
-            const ctx = canvas.getContext('2d');
-            let x = 140, y = 140;
-            function draw() {
-                ctx.fillStyle = "black"; ctx.fillRect(0,0,280,280);
-                ctx.fillStyle = "yellow"; ctx.beginPath();
-                ctx.arc(x, y, 15, 0.2 * Math.PI, 1.8 * Math.PI);
-                ctx.lineTo(x, y); ctx.fill();
-                x += (Math.random() - 0.5) * 4; y += (Math.random() - 0.5) * 4;
-                requestAnimationFrame(draw);
-            }
-            draw();
-        }
-
-        function contact(source) {
-            const msg = encodeURIComponent(`Hi CyberNova! I'm coming from ${source}. I won a bonus and want to discuss your IT/AI services (50% OFF Launch).`);
-            window.open(`https://wa.me/6584412114?text=${msg}`, '_blank');
-        }
-    </script>
-</body>
-</html>
-
-      
-
+       
+       
    
 
     
             
                         
       
+
 
